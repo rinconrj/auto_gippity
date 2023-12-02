@@ -1,35 +1,34 @@
 use crossterm::{
-  style::{Color, ResetColor, SetForegroundColor},
-  ExecutableCommand,
+    style::{Color, ResetColor, SetForegroundColor},
+    ExecutableCommand,
 };
 use std::io::{stdin, stdout};
 
 #[derive(PartialEq, Debug)]
 pub enum PrintCommand {
-  AICall,
-  UnitTest,
-  Issue
+    AICall,
+    UnitTest,
+    Issue,
 }
 
 impl PrintCommand {
-  pub fn print_agent_message(&self, agent_pos: &str, agent_statement: &str) {
-    let mut stdout: std::io::Stdout = stdout();
+    pub fn print_agent_message(&self, agent_pos: &str, agent_statement: &str) {
+        let mut stdout: std::io::Stdout = stdout();
 
-    let statement_color: Color = match self {
-      Self::AICall => Color::Cyan,
-      Self::UnitTest => Color::Magenta,
-      Self::Issue => Color::Red
-    };
+        let statement_color: Color = match self {
+            Self::AICall => Color::Cyan,
+            Self::UnitTest => Color::Magenta,
+            Self::Issue => Color::Red,
+        };
 
-    stdout.execute(SetForegroundColor(Color::Green)).unwrap();
-    print!("Agent: {}: ", agent_pos);
+        stdout.execute(SetForegroundColor(Color::Green)).unwrap();
+        print!("Agent: {}: ", agent_pos);
 
-    stdout.execute(SetForegroundColor(statement_color)).unwrap();
-    println!("{}", agent_statement);
+        stdout.execute(SetForegroundColor(statement_color)).unwrap();
+        println!("{}", agent_statement);
 
-    stdout.execute(ResetColor).unwrap();
-
-  }
+        stdout.execute(ResetColor).unwrap();
+    }
 }
 
 #[cfg(test)]
@@ -37,22 +36,24 @@ mod tests {
     use super::*;
     #[test]
     fn test_print_agent_msg() {
-      PrintCommand::AICall.print_agent_message("Managing Agent", "Testing testing");
+        PrintCommand::AICall.print_agent_message("Managing Agent", "Testing testing");
     }
-  }
+}
 
-pub fn get_user_response(question: &str) -> String{
-  let mut stdout: std::io::Stdout = stdout();
+pub fn get_user_response(question: &str) -> String {
+    let mut stdout: std::io::Stdout = stdout();
 
-  stdout.execute(SetForegroundColor(Color::Blue)).unwrap();
-  println!("");
-  println!("{}", question);
+    stdout.execute(SetForegroundColor(Color::Blue)).unwrap();
+    println!("");
+    println!("{}", question);
 
-  stdout.execute(ResetColor).unwrap();
+    stdout.execute(ResetColor).unwrap();
 
-  let mut user_response = String::new();
+    let mut user_response = String::new();
 
-  stdin().read_line(&mut user_response).expect("Fail to read response");
+    stdin()
+        .read_line(&mut user_response)
+        .expect("Fail to read response");
 
-  return user_response.trim().to_string();
+    return user_response.trim().to_string();
 }

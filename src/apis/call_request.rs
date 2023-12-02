@@ -62,11 +62,11 @@ mod tests {
             content: "Who won the 2020 World Cup?".to_string(),
         }];
 
-       let res = call_gpt(messages).await;
-       if let Ok(res) = res {
-           println!("{}", res);
-       }else {
-           println!("{}", res.unwrap_err());
-       }
+        let res = call_gpt(messages).await;
+        if let Ok(res) = res {
+            println!("{}", res);
+        } else {
+            println!("{}", res.unwrap_err());
+        }
     }
 }
